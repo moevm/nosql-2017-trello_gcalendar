@@ -5,7 +5,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -30,7 +30,7 @@
     <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty:6.1.26" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-util:6.1.26" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211" level="project" />
-    <orderEntry type="library" name="Maven: com.google.apis:google-api-services-calendar:v3-rev263-1.23.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.apis:google-api-services-calendar:v3-rev271-1.23.0" level="project" />
     <orderEntry type="library" name="Maven: com.julienvey.trello:trello-java-wrapper:0.3.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.2.0" level="project" />
@@ -38,6 +38,9 @@
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.11" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.11" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.5" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:3.5.0" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:3.2.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:3.2.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />

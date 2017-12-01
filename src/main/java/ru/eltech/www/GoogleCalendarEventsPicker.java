@@ -116,7 +116,10 @@ public class GoogleCalendarEventsPicker {
     public static void main(String[] args) {
         GoogleCalendarEventsPicker googleCalendarEventsPicker = new GoogleCalendarEventsPicker();
         try {
-            googleCalendarEventsPicker.getAllEvents();
+            List<Event> allEvents = googleCalendarEventsPicker.getAllEvents();
+            for (Event e : allEvents) {
+                System.out.println(e);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
