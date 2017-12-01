@@ -12,7 +12,7 @@ public class TrelloEventsPicker {
 
     private static final String TEST_APPLICATION_KEY = "5a81bb93f35516ba55b92ba63d7b31f8";
     private static final String TRELLO_ACCESS_TOKEN = "f1974878d145c6e6d3fd08400fdc35f6eab86f4a65d219fe33ac866719693eac";
-    private static final String TRELLO_BOARD_ID = "5a21ab12fdf007dbaad9529d";
+    private static final String TRELLO_BOARD_ID = "55742808ce861027d52c3359";
 
     private static Trello trelloAPI;
 
