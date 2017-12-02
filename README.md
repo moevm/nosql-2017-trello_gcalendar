@@ -1,11 +1,4 @@
 
-
-This project requires MongoDB
-
-https://docs.mongodb.com/manual/installation/
-
-
-
 Выгрузка данных задач из Trello и их анализ - сопоставление с Google-календарем
 
 Дано:
@@ -23,3 +16,18 @@ https://docs.mongodb.com/manual/installation/
 - в какие дни недели больше всего переработка (что-то делают с задачами в нерабочее время)
 
 - в какой половине дня больше всего изменяют/создают/закрывают задачи
+
+This project requires MongoDB
+
+https://docs.mongodb.com/manual/installation/
+
+Mac OS
+
+```$bash
+brew install mongo
+
+brew services start mongodb
+```
+
+
+

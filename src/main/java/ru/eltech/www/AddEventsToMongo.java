@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClient;
 import org.bson.Document;
+import ru.eltech.data.GoogleCalendarEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,34 +16,19 @@ import java.util.List;
 
 public class AddEventsToMongo {
 
-
-    public static Document eventToDocument(Event e) {
-        EventDateTime start = e.getStart();
-        EventDateTime end = e.getEnd();
-
-        return new Document("id", e.getId())
-                .append("description", e.getDescription())
-                .append("start", start.getDateTime().getValue())
-                .append("end", end.getDateTime().getValue());
-    }
-
     public static void main(String args[]) {
-
-        // Creating a Mongo client
         MongoClient mongo = new MongoClient("localhost", 27017);
 
         MongoDatabase database = mongo.getDatabase("myDb");
 
         MongoCollection<Document> collection = database.getCollection("events");
 
-
         GoogleCalendarEventsPicker googleCalendarEventsPicker = new GoogleCalendarEventsPicker();
         try {
             List<Event> allEvents = googleCalendarEventsPicker.getAllEvents();
 
             for (Event e : allEvents) {
-
-                Document doc = eventToDocument(e);
+                Document doc = new GoogleCalendarEvent(e).getBson();
 
                 System.out.println(doc.toJson());
 

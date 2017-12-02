@@ -1,13 +1,16 @@
-package ru.eltech.www;
+package ru.eltech.data;
 
 import org.bson.Document;
 
+import java.util.Date;
+
 public class TrelloEvent {
     String id;
-    long time;
+    Date time;
 
-    TrelloEvent(String id, long time) {
-
+    public TrelloEvent(String id, Date time) {
+        this.id = id;
+        this.time = time;
     }
 
     public Document getBson() {
