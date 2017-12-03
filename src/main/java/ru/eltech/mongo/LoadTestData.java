@@ -15,7 +15,7 @@ public class LoadTestData {
         return new DateTime(2017, 11, 27, 0, 0);
     }
 
-    public static List<GoogleCalendarEvent> getGoogleCallendarEvents() {
+    private static List<GoogleCalendarEvent> getGoogleCallendarEvents() {
         List<GoogleCalendarEvent> result = new ArrayList<>();
         DateTime date = getFirstDay();
         for (int i = 0; i < 5; i++) {
@@ -23,6 +23,12 @@ public class LoadTestData {
                     "d" + i,
                     date.withHourOfDay(9).toDate(),
                     date.withHourOfDay(5).toDate()));
+
+            result.add(new GoogleCalendarEvent(
+                    "e" + i,
+                    date.withHourOfDay(20).toDate(),
+                    date.withHourOfDay(5).toDate()));
+
             date = date.plusDays(1);
         }
         return result;
@@ -30,7 +36,7 @@ public class LoadTestData {
 
 
 
-    static List<TrelloEvent> getTrelloEvents() {
+    private static List<TrelloEvent> getTrelloEvents() {
         List<TrelloEvent> result = new ArrayList<>();
         DateTime date = getFirstDay();
         for (int i = 0; i < 5; i++) {
@@ -43,15 +49,14 @@ public class LoadTestData {
     }
 
     public static void main(String[] args) {
+        Mongo.drop();
         MongoCollection<Document> gCalendarCollection = Mongo.getGCalendarCollection();
-        gCalendarCollection.drop();
         for (GoogleCalendarEvent e: getGoogleCallendarEvents()) {
             gCalendarCollection.insertOne(e.getDocument());
         }
         MongoCollection<Document> trelloCollection = Mongo.getTrelloCollection();
-        trelloCollection.drop();
         for (TrelloEvent e: getTrelloEvents()) {
-            gCalendarCollection.insertOne(e.getDocument());
+            trelloCollection.insertOne(e.getDocument());
         }
     }
 }

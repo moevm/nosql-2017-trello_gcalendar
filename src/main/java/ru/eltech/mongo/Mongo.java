@@ -20,4 +20,8 @@ public class Mongo {
     }
 
 
+    public static void drop() {
+        getTrelloCollection().drop();
+        getGCalendarCollection().drop();
+    }
 }
