@@ -7,13 +7,13 @@ import org.bson.Document;
 import java.util.Date;
 
 public class GoogleCalendarEvent {
-    String id;
-    String description;
+    private String id;
+    private String description;
 
-    Date start;
-    Date end;
+    private Date start;
+    private Date end;
 
-    GoogleCalendarEvent(String id, Date start, Date end) {
+    public GoogleCalendarEvent(String id, Date start, Date end) {
         this.id = id;
         this.start = start;
         this.end = end;
@@ -29,7 +29,7 @@ public class GoogleCalendarEvent {
         this.end = new Date(end.getDateTime().getValue());
     }
 
-    public Document getBson() {
+    public Document getDocument() {
         return new Document("id", id)
                 .append("start", start)
                 .append("end", end);
