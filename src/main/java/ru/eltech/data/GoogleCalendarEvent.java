@@ -25,8 +25,12 @@ public class GoogleCalendarEvent {
 
         this.id = e.getId();
         this.description = e.getDescription();
-        this.start = new Date(start.getDateTime().getValue());
-        this.end = new Date(end.getDateTime().getValue());
+        if (start.getDateTime() != null) {
+            this.start = new Date(start.getDateTime().getValue());
+        }
+        if (end.getDateTime() != null) {
+            this.end = new Date(end.getDateTime().getValue());
+        }
     }
 
     public Document getDocument() {

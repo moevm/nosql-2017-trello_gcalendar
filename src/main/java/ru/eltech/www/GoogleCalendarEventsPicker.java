@@ -11,13 +11,17 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class GoogleCalendarEventsPicker {
@@ -100,12 +104,22 @@ public class GoogleCalendarEventsPicker {
             .build();
     }
 
-    public List<Event> getAllEvents() throws Exception {
-        com.google.api.services.calendar.Calendar service =
-            getCalendarService();
+    public CalendarList getAllCalendars() throws Exception {
+        Calendar service = getCalendarService();
 
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
+        Calendar.CalendarList.List calendars = service.calendarList().list();
+
+        return calendars.execute();
+    }
+
+    public List<Event> getAllEvents() throws Exception {
+        return getAllEvents("primary");
+    }
+
+    public List<Event> getAllEvents(String calendarId) throws Exception {
+        Calendar service = getCalendarService();
+
+        Events events = service.events().list(calendarId)
             .setOrderBy("startTime")
             .setSingleEvents(true)
             .execute();
@@ -113,15 +127,19 @@ public class GoogleCalendarEventsPicker {
         return events.getItems();
     }
 
-    public static void main(String[] args) {
-        GoogleCalendarEventsPicker googleCalendarEventsPicker = new GoogleCalendarEventsPicker();
-        try {
-            List<Event> allEvents = googleCalendarEventsPicker.getAllEvents();
-            for (Event e : allEvents) {
-                System.out.println(e);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static void main(String[] args) throws Exception {
+        GoogleCalendarEventsPicker eventsPicker = new GoogleCalendarEventsPicker();
+        CalendarList allCalendars = eventsPicker.getAllCalendars();
+
+        for (CalendarListEntry e: allCalendars.getItems()) {
+            System.out.println(e.getId() + " " + e.getSummary());
+        }
+        List<Event> allEvents = eventsPicker.getAllEvents();
+
+        for (Event e : allEvents) {
+            System.out.println(e.getId());
+            System.out.println(e.getStart().getDate());
+            System.out.println(e.getEnd().getDate());
         }
     }
 }

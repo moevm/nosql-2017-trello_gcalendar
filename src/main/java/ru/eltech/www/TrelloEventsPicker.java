@@ -1,9 +1,7 @@
 package ru.eltech.www;
 
 import com.julienvey.trello.Trello;
-import com.julienvey.trello.domain.Board;
-import com.julienvey.trello.domain.Card;
-import com.julienvey.trello.domain.TList;
+import com.julienvey.trello.domain.Action;
 import com.julienvey.trello.impl.TrelloImpl;
 import java.util.List;
 
@@ -16,24 +14,18 @@ public class TrelloEventsPicker {
 
     private static Trello trelloAPI;
 
-    public List<TList> getAllEvents() throws NullPointerException {
+    public List<Action> getAllActions() throws NullPointerException {
         trelloAPI = new TrelloImpl(TEST_APPLICATION_KEY, TRELLO_ACCESS_TOKEN);
-        Board board = trelloAPI.getBoard(TRELLO_BOARD_ID);
-        return board.fetchLists();
+        return trelloAPI.getBoardActions(TRELLO_BOARD_ID);
     }
-
 
     public static void main(String[] args) {
         TrelloEventsPicker trelloEventsPicker = new TrelloEventsPicker();
-        List<TList> allEvents = trelloEventsPicker.getAllEvents();
-        for (TList l : allEvents) {
-            System.out.println(l.getId());
-            System.out.println(l.getName());
-            System.out.println(l.getCards().size());
-            for (Card c : l.getCards()) {
-                System.out.println("Card: " + c.getIdBoard());
-                c.getActions();
-            }
+        List<Action> list = trelloEventsPicker.getAllActions();
+        for (Action a : list) {
+            System.out.println(a.getId());
+            System.out.println(a.getType());
+            System.out.println(a.getDate());
         }
     }
 }
