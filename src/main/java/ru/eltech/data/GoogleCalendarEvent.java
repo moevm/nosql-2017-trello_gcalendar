@@ -33,10 +33,23 @@ public class GoogleCalendarEvent {
         }
     }
 
+    public GoogleCalendarEvent(Document d) {
+        this.id = d.getString("id");
+        this.start = d.getDate("start");
+        this.end = d.getDate("end");
+    }
+
     public Document getDocument() {
         return new Document("id", id)
                 .append("start", start)
                 .append("end", end);
     }
 
+    public Date getStart() {
+        return start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
 }

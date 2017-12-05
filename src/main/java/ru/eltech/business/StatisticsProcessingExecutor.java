@@ -2,10 +2,15 @@ package ru.eltech.business;
 
 import com.google.api.services.calendar.model.Event;
 import com.julienvey.trello.domain.Action;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.joda.time.DateTime;
+import ru.eltech.data.GoogleCalendarEvent;
+import ru.eltech.data.TrelloEvent;
+import ru.eltech.mongo.Mongo;
 import ru.eltech.www.GoogleCalendarEventsPicker;
 import ru.eltech.www.TrelloEventsPicker;
 
@@ -14,8 +19,8 @@ public class StatisticsProcessingExecutor {
     Map<Integer, Integer> overtimeStatisticsForEachDayMap = new HashMap<>();
     Map<Integer, Integer> overtimeStatisticsForEachTimeOfDayMap = new HashMap<>();
 
-    public void prepareOvertimeStatistics(List<Action> trelloActions, List<Event> googleEvents) {
-        for (Action trelloAction : trelloActions) {
+    public void prepareOvertimeStatistics(List<TrelloEvent> trelloActions, List<GoogleCalendarEvent> googleEvents) {
+        for (TrelloEvent trelloAction : trelloActions) {
             DateTime trelloActionDate = new DateTime(trelloAction.getDate());
 
             if (isOverworking(trelloActionDate, googleEvents)) {
@@ -25,16 +30,14 @@ public class StatisticsProcessingExecutor {
         }
     }
 
-    private boolean isOverworking(DateTime trelloActionDate, List<Event> googleEvents) {
-        for (Event event : googleEvents) {
-            DateTime googleEventStartTime = new DateTime(
-                event.getStart().getDateTime().getValue());
+    private boolean isOverworking(DateTime trelloActionDate, List<GoogleCalendarEvent> googleEvents) {
+        for (GoogleCalendarEvent event : googleEvents) {
+            DateTime googleEventStartTime = new DateTime(event.getStart());
 
-            DateTime googleEventEndTime = new DateTime(
-                event.getEnd().getDateTime().getValue());
+            DateTime googleEventEndTime = new DateTime(event.getEnd());
 
             if (googleEventStartTime.isBefore(trelloActionDate)
-                && googleEventEndTime.isAfter(trelloActionDate)) {
+                    && googleEventEndTime.isAfter(trelloActionDate)) {
                 return false;
             }
         }
@@ -44,26 +47,26 @@ public class StatisticsProcessingExecutor {
 
     private void updateOvertimeStatisticsForEachTimeOfDayMap(DateTime trelloActionDate) {
         int numberOfOverworkings = overtimeStatisticsForEachTimeOfDayMap
-            .getOrDefault(trelloActionDate.getHourOfDay(), 0);
+                .getOrDefault(trelloActionDate.getHourOfDay(), 0);
 
         overtimeStatisticsForEachTimeOfDayMap
-            .put(trelloActionDate.getHourOfDay(), ++numberOfOverworkings);
+                .put(trelloActionDate.getHourOfDay(), ++numberOfOverworkings);
     }
 
     private void updateOvertimeStatisticsForEachDayMap(DateTime trelloActionDate) {
         int numberOfOverworkings = overtimeStatisticsForEachDayMap
-            .getOrDefault(trelloActionDate.getDayOfWeek(), 0);
+                .getOrDefault(trelloActionDate.getDayOfWeek(), 0);
 
         overtimeStatisticsForEachDayMap
-            .put(trelloActionDate.getDayOfWeek(),
-                ++numberOfOverworkings);
+                .put(trelloActionDate.getDayOfWeek(),
+                        ++numberOfOverworkings);
     }
 
     public static void main(String[] args) throws Exception {
         StatisticsProcessingExecutor statisticsProcessingExecutor = new StatisticsProcessingExecutor();
-        statisticsProcessingExecutor
-            .prepareOvertimeStatistics((new TrelloEventsPicker()).getAllActions(),
-                (new GoogleCalendarEventsPicker()).getAllEvents());
+        statisticsProcessingExecutor.prepareOvertimeStatistics(
+                Mongo.getTrelloEvents(),
+                Mongo.getGoogleCalendarEvents());
     }
 
 }

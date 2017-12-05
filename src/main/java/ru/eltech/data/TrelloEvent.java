@@ -23,9 +23,19 @@ public class TrelloEvent {
         this.time = action.getDate();
     }
 
+    public TrelloEvent(Document d) {
+        this.id = d.getString("id");
+        this.type = d.getString("type");
+        this.time = d.getDate("time");
+    }
+
     public Document getDocument() {
         return new Document("id", id)
                 .append("type", type)
                 .append("time", time);
+    }
+
+    public Date getDate() {
+        return time;
     }
 }
