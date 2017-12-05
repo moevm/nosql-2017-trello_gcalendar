@@ -1,8 +1,5 @@
 package ru.eltech.business;
 
-import com.google.api.services.calendar.model.Event;
-import com.julienvey.trello.domain.Action;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +8,11 @@ import org.joda.time.DateTime;
 import ru.eltech.data.GoogleCalendarEvent;
 import ru.eltech.data.TrelloEvent;
 import ru.eltech.mongo.Mongo;
-import ru.eltech.www.GoogleCalendarEventsPicker;
-import ru.eltech.www.TrelloEventsPicker;
 
 public class StatisticsProcessingExecutor {
 
     Map<Integer, Integer> overtimeStatisticsForEachDayMap = new HashMap<>();
-    Map<Integer, Integer> overtimeStatisticsForEachTimeOfDayMap = new HashMap<>();
+    Map<Integer, Integer> statisticsForEachTimeOfDayMap = new HashMap<>();
 
     public void prepareOvertimeStatistics(List<TrelloEvent> trelloActions, List<GoogleCalendarEvent> googleEvents) {
         for (TrelloEvent trelloAction : trelloActions) {
@@ -25,8 +20,10 @@ public class StatisticsProcessingExecutor {
 
             if (isOverworking(trelloActionDate, googleEvents)) {
                 updateOvertimeStatisticsForEachDayMap(trelloActionDate);
-                updateOvertimeStatisticsForEachTimeOfDayMap(trelloActionDate);
             }
+
+            updateStatisticsForEachTimeOfDayMap(trelloActionDate);
+
         }
     }
 
@@ -45,11 +42,11 @@ public class StatisticsProcessingExecutor {
         return true;
     }
 
-    private void updateOvertimeStatisticsForEachTimeOfDayMap(DateTime trelloActionDate) {
-        int numberOfOverworkings = overtimeStatisticsForEachTimeOfDayMap
+    private void updateStatisticsForEachTimeOfDayMap(DateTime trelloActionDate) {
+        int numberOfOverworkings = statisticsForEachTimeOfDayMap
                 .getOrDefault(trelloActionDate.getHourOfDay(), 0);
 
-        overtimeStatisticsForEachTimeOfDayMap
+        statisticsForEachTimeOfDayMap
                 .put(trelloActionDate.getHourOfDay(), ++numberOfOverworkings);
     }
 
@@ -67,6 +64,41 @@ public class StatisticsProcessingExecutor {
         statisticsProcessingExecutor.prepareOvertimeStatistics(
                 Mongo.getTrelloEvents(),
                 Mongo.getGoogleCalendarEvents());
+
+
+        int first = 0;
+        int second = 0;
+
+        for (int i = 0; i < 24; i++) {
+            Integer value = statisticsProcessingExecutor.statisticsForEachTimeOfDayMap.getOrDefault(i, 0);
+
+            if (i < 12) {
+                first += value;
+            } else {
+                second += value;
+            }
+
+        }
+
+        System.out.println();
+        System.out.println("Действий в первой половине дня: " + first);
+        System.out.println("Действий во второй половине дня: " + second);
+
+        String[] daysOfWeek = new String[] {
+            "Понедельник",
+            "Вторник",
+            "Среда",
+            "Четверг",
+            "Пятница",
+            "Суббота",
+            "Воскресение"};
+
+        System.out.println();
+        for (int i = 0; i < 7; i++) {
+            Integer value = statisticsProcessingExecutor.overtimeStatisticsForEachDayMap.getOrDefault(i + 1, 0);
+            System.out.println("Переработка в " + daysOfWeek[i] + ": " + value);
+
+        }
     }
 
 }
