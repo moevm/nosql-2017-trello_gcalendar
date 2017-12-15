@@ -30,7 +30,7 @@
     <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty:6.1.26" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-util:6.1.26" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jetty:servlet-api:2.5-20081211" level="project" />
-    <orderEntry type="library" name="Maven: com.google.apis:google-api-services-calendar:v3-rev273-1.23.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.apis:google-api-services-calendar:v3-rev275-1.23.0" level="project" />
     <orderEntry type="library" name="Maven: com.julienvey.trello:trello-java-wrapper:0.3.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.2.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.2.0" level="project" />
