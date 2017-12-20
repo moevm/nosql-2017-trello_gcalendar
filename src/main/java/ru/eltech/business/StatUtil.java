@@ -49,6 +49,11 @@ public class StatUtil {
                 "Воскресение"};
 
         System.out.println();
+        if (isClosing) {
+            System.out.println("Закрытия дел пользователем:");
+        } else {
+            System.out.println("Все действия пользователя:");
+        }
         for (int i = 0; i < 7; i++) {
             Integer value = overtimeStatisticsForEachDayMap.getOrDefault(i + 1, 0);
             System.out.println("Переработка в " + daysOfWeek[i] + ": " + value);
@@ -102,6 +107,11 @@ public class StatUtil {
         }
 
         System.out.println();
+        if (isClosing) {
+            System.out.println("Закрытия дел пользователем:");
+        } else {
+            System.out.println("Все действия пользователя:");
+        }
         System.out.println("Действий в первой половине дня: " + first);
         System.out.println("Действий во второй половине дня: " + second);
     }
