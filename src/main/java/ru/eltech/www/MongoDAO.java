@@ -3,19 +3,17 @@ package ru.eltech.www;
 import com.google.api.services.calendar.model.Event;
 import com.julienvey.trello.domain.Action;
 import com.mongodb.client.MongoCollection;
+import java.util.List;
 import org.bson.Document;
 import ru.eltech.data.GoogleCalendarEvent;
 import ru.eltech.data.TrelloEvent;
 import ru.eltech.mongo.Mongo;
 
-import java.util.List;
 
+public class MongoDAO {
 
-public class AddEventsToMongo {
-
-    public static void main(String args[]) {
+    public static void addEvents() {
         Mongo.drop();
-
 
         try {
             MongoCollection<Document> gCalendarCollection = Mongo.getGCalendarCollection();
